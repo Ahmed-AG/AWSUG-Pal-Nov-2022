@@ -50,8 +50,64 @@ git https://github.com/Ahmed-AG/vpc-terraform.git
 ```bash
 cdk bootstrap aws://ACCOUNT-NUMBER-1/REGION-1
 ```
-- Configure CDF:
-
+- Configure `config.d/config.json`:
+```bash
+{
+    "pipelines" :[
+        {
+            "name" : "cfn-pipeline1",
+            "provider" : "aws",
+            "source" : {
+                "source_type" : "codecommit",
+                "repo_name" : "<CloudFormation Repo>",
+                "branch" : "main"
+            },
+            "deployment" : {
+                "assume_role" :{
+                    "role": "TODO"
+                },
+                "aws_account" : "",
+                "iam_policy_file" : "config.d/iam-policy.json",
+                "region" : "us-east-1",
+                "type" : "cfn",
+                "parameters" : "VpcCIDR=10.0.0.0/16 Region=$REGION",
+                "capabilities" : "CAPABILITY_IAM CAPABILITY_NAMED_IAM",
+                "deployment_file" : "main.yaml",
+                "checks" : [
+                    "general_all",
+                    "cfn_nag", 
+                    "checkov"
+                ]
+            }
+        },
+        {
+            "name" : "terraform-pipeline2",
+            "provider" : "aws",
+            "source" : {
+                "source_type" : "codecommit",
+                "repo_name" : "<terraform Repo>",
+                "branch" : "master"
+            },
+            "deployment" : {
+                "assume_role" :{
+                    "role": "TODO"
+                },
+                "aws_account" : "",
+                "iam_policy_file" : "config.d/iam-policy.json",
+                "region" : "us-east-1",
+                "type" : "terraform",
+                "parameters" : "VpcCIDR=10.0.0.0/16 Region=$REGION",
+                "deployment_folder" : "./",
+                "checks" : [
+                    "general_all",
+                    "checkov"
+                ]
+            }
+        }
+    ]
+}
+```
+- Update the cloudformation repo name and the terraform repo name
 - Deploy the pipelines
 ```bash
 cdk deploy --all
