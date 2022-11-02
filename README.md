@@ -16,15 +16,13 @@ git https://github.com/Ahmed-AG/vpc-terraform.git`
 ssh -i <PEM File> ubuntu@<Instance IP Address>`
 
 ## 4- Set up the instance
-`sudo apt update
-sudo apt  install docker.io`
+
+`
+sudo apt-get update && sudo apt-get install jq curl wget ruby python3 python3-pip docker.io  -y
+`
   
 ## 5- Install tools
-`wget --quiet https://releases.hashicorp.com/terraform/1.2.5/terraform_1.2.5_linux_386.zip \
-  && unzip terraform_1.2.5_linux_386.zip \
-  && mv terraform /usr/bin \
-  && rm terraform_1.2.5_linux_386.zip`
+`wget --quiet https://releases.hashicorp.com/terraform/1.2.5/terraform_1.2.5_linux_386.zip && unzip terraform_1.2.5_linux_386.zip && sudo mv terraform /usr/bin && rm terraform_1.2.5_linux_386.zip`
   
-`pip3 install checkov`
-`gem install cfn-nag`
+`sudo pip3 install checkov` and `sudo gem install cfn-nag`
   
